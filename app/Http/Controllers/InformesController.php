@@ -141,4 +141,69 @@ class InformesController extends Controller
             'cli' => $nom_cli
         ]);
     }
+
+    public function chile(){
+
+        $movimientos = DB::table('depositos')
+            ->join('pagos_recibidos','pagos_recibidos_id_pago_r','=','id_pago_r')
+            ->join('dte_emitidos','dte_emitidos_id_dte_e','=','id_dte_e')
+            ->join('tipos_docs_pago', 'tipos_docs_pago_id_tipo_docs_p','=','id_tipo_docs_p')
+            ->where('cuentas_pagos_id_cuentas', 1)
+            ->orderBy('id_depositos', 'desc')
+            ->get();
+
+        return view('Informes.chile',[
+           'movi' => $movimientos
+        ]);
+
+    }
+
+    public function santander(){
+
+        $movimientos = DB::table('depositos')
+            ->join('pagos_recibidos','pagos_recibidos_id_pago_r','=','id_pago_r')
+            ->join('dte_emitidos','dte_emitidos_id_dte_e','=','id_dte_e')
+            ->join('tipos_docs_pago', 'tipos_docs_pago_id_tipo_docs_p','=','id_tipo_docs_p')
+            ->where('cuentas_pagos_id_cuentas', 2)
+            ->orderBy('id_depositos', 'desc')
+            ->get();
+
+        return view('Informes.santander',[
+            'movi' => $movimientos
+        ]);
+
+    }
+
+    public function cajachica(){
+
+        $movimientos = DB::table('depositos')
+            ->join('pagos_recibidos','pagos_recibidos_id_pago_r','=','id_pago_r')
+            ->join('dte_emitidos','dte_emitidos_id_dte_e','=','id_dte_e')
+            ->join('tipos_docs_pago', 'tipos_docs_pago_id_tipo_docs_p','=','id_tipo_docs_p')
+            ->where('cuentas_pagos_id_cuentas',3)
+            ->orderBy('id_depositos', 'desc')
+            ->get();
+
+        return view('Informes.cajachica',[
+            'movi' => $movimientos
+        ]);
+
+    }
+
+    public function cheques(){
+
+        $cheques = DB::table('pagos_recibidos')
+            ->join('dte_emitidos', 'dte_emitidos_id_dte_e', '=', 'id_dte_e')
+            ->join('clientes', 'clientes_id_cliente', '=', 'id_cliente')
+            ->where('estado_p_r','<>',2)
+            ->where('tipos_docs_pago_id_tipo_docs_p','=','1')
+            ->orderBy('fecha_cobro', 'asc')
+            ->get();
+
+        return view('Informes.cheques',[
+            'cheques' => $cheques
+        ]);
+
+    }
+
 }

@@ -136,11 +136,29 @@
                             </center>
                         <td>
                             <center>
-                                <button id="btn_add_dte" type="button" class="btn col-sm-12 btn-success btn-xs btn_add_dte" data-toggle="tooltip"
-                                        title="Agregar DTE">
-                                    <i class="fa fa-plus"></i> NUEVA DTE
-                                </button>
-                                <br><br>
+                                @if(Auth::user()->level==2)
+
+                                    <form class="" name="form" action="{{ url('FichaDTE') }}" role="form"
+                                          method="POST" enctype="multipart/form-data">
+
+                                        <div class="">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input class="form-control pull-right" id="id" type="hidden" name="id" value="{{  $cli -> id_cliente }}">
+                                            <input class="form-control pull-right" id="tipo" type="hidden" name="tipo" value="1">
+                                        </div>
+                                        <div class="">
+                                            <button type="submit" class="btn-xs col-sm-12 btn-primary">
+                                                <i class="fa fa-eye"></i> FICHA CLIENTE
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                @else
+                                    <button id="btn_add_dte" type="button" class="btn col-sm-12 btn-success btn-xs btn_add_dte" data-toggle="tooltip"
+                                            title="Agregar DTE">
+                                        <i class="fa fa-plus"></i> NUEVA DTE
+                                    </button>
+                                    <br><br>
                                 <form class="" name="form" action="{{ url('FichaDTE') }}" role="form"
                                       method="POST" enctype="multipart/form-data">
 
@@ -155,6 +173,7 @@
                                         </button>
                                     </div>
                                 </form>
+                                @endif
                             </center>
                         </td>
                     </tr>
@@ -212,7 +231,7 @@
                                 <div class="col-sm-4">
                                     <input class="form-control pull-right" type="date" name="fecha_em" required>
                                 </div>
-                                <label for="exampleInputEmail1" class="col-sm-2 control-label">N° Doc:</label>
+                                <label for="exampleInputEmail1" class="col-sm-2 control-label">N° Fact.:</label>
                                 <div class="col-sm-3">
                                     <input class="form-control pull-right" type="number" min="1" name="n_doc" required>
                                 </div>
@@ -236,7 +255,7 @@
                                 </div>
                                 <label for="exampleInputEmail1" class="col-sm-3 control-label">$ Otro Impuesto</label>
                                 <div class="col-sm-4">
-                                    <input class="form-control pull-right" id="otro_impuesto" type="number" min="0" name="otro_impuesto" required>
+                                    <input class="form-control pull-right" id="otro_impuesto" type="number" min="0" value="0" name="otro_impuesto" required>
                                 </div>
                             </div>
 

@@ -49,6 +49,8 @@ class ClientesController extends Controller
 
     public function GuardarNuevo()
     {
+
+        try{
         $rut = $_POST['rut'];
         $rs = $_POST['r_soc'];
         $giro = $_POST['giro'];
@@ -71,7 +73,10 @@ class ClientesController extends Controller
             'comunas_id_comunas' => $com
         ]);
 
-        return back();
+            return redirect('Clientes/Listar')->with('status', 'Cliente Creado!');
+             } catch (\Illuminate\Database\QueryException $ex) {
+                return redirect('Clientes/Listar')->with('error', 'ERROR, No se creo el Cliente!');
+            }
     }
 
     public function GuardarNuevoPago()

@@ -75,7 +75,7 @@
                                         $num_ges= $num_ges + 1;
                                         ?></td>
                                     <td>{{ date('d M Y', strtotime($c_p -> fecha)) }}</td>
-                                    <td>{{  $c_p -> num_doc}}</td>
+                                    <td>{{  $c_p -> num_dte}}</td>
                                     <td>$ {{  number_format($c_p -> neto_doc,0,',','.')}}</td>
                                     <td>$ {{  number_format($c_p -> iva,0,',','.')}}</td>
                                     <td>$ {{  number_format($c_p -> otro_imp,0,',','.')}}</td>

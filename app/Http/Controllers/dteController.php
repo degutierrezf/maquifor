@@ -34,7 +34,7 @@ class dteController extends Controller
 
             DB::table('dte_emitidos')->Insert([
                 'fecha' => $fecha,
-                'num_doc' => $num_doc,
+                'num_dte' => $num_doc,
                 'neto_doc' => $netodoc,
                 'iva' => $iva,
                 'otro_imp' => $otro_i,
@@ -105,12 +105,16 @@ class dteController extends Controller
             ->where('dte_emitidos_id_dte_e','=', $id)
             ->get();
 
+        $cuentas = DB::table('cuentas_pagos')
+            ->get();
+
         return view('Dte.detalle_dte_e', [
             'dte' => $DTEs,
             'sum' => $sum,
             'id_dte' => $id,
             'total' => $total,
-            'cobra' => $cobra
+            'cobra' => $cobra,
+            'cuentas' => $cuentas
         ]);
     }
 
@@ -156,35 +160,16 @@ class dteController extends Controller
 
 
         $id = $_POST['id'];
-        $tipo = $_POST['tipo'];
 
-        if($tipo==1){
-            $cli_pro = DB::table('clientes')
+        $cli_pro = DB::table('clientes')
                 ->leftjoin('dte_emitidos', 'id_cliente', '=', 'clientes_id_cliente')
                 ->where('id_cliente', $id)
                 ->get();
 
-            $cli_pro_2 = DB::table('clientes')
-                ->leftjoin('nc_emitidas', 'id_cliente', '=', 'cliente_id_cliente')
-                ->where('id_cliente', $id)
-                ->get();
-        }else{
-            $cli_pro = DB::table('proveedores')
-                ->leftjoin('dte_recibidos', 'id_proveedor', '=', 'proveedores_id_proveedor')
-                ->where('id_proveedor', $id)
-                ->get();
-
-            $cli_pro_2 = DB::table('proveedores')
-                ->leftjoin('nc_recibidas', 'id_proveedor', '=', 'proveedor_id_proveedor')
-                ->where('id_proveedor', $id)
-                ->get();
-        }
 
         return view('Dte.ficha_dte',
             [
-                'cli_pro'=>$cli_pro,
-                'cli_pro_2' => $cli_pro_2
-
+                'cli_pro'=>$cli_pro
         ]);
 
     }
@@ -274,7 +259,25 @@ class dteController extends Controller
     public function Depositar(){
 
         // ID PAGO
-        $id_pago_r = $_POST['id_pago_dte'];
+        $id_pago_r = $_POST['id_pago'];
+        $id_cuenta = $_POST['id_cuenta'];
+
+        $fecha = date_create();
+
+        $monto = DB::table('pagos_recibidos')
+            ->where('id_pago_r', $id_pago_r)
+            ->sum('valor_doc');
+
+
+        DB::table('depositos')->insert([
+           'fecha_dep' => $fecha,
+            'monto' => $monto,
+            'cuentas_pagos_id_cuentas' => $id_cuenta,
+            'pagos_recibidos_id_pago_r' => $id_pago_r
+        ]);
+
+       // printf($monto);
+        //die();
 
         DB::table('pagos_recibidos')
             ->where('id_pago_r',$id_pago_r)

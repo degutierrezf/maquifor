@@ -89,7 +89,7 @@
     <br><br>
     <div class="info-box">
         <div class="box-header">
-            <h3 class="box-title">Listado General de Documentos Emitidos</h3>
+            <h3 class="box-title">Facturas Pendientes de Pago & Sin Documentar</h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
@@ -113,7 +113,7 @@
                     <tr>
                         <td>{{  $dte -> id_dte_e }}</td>
                         <td><b>{{  $dte -> rsocial }}</b></td>
-                        <td>{{  $dte -> num_doc}}</td>
+                        <td>{{  $dte -> num_dte}}</td>
                         <td>{{  date('d M Y', strtotime($dte -> fecha)) }}</td>
                         <td>{{  date('d M Y', strtotime($dte -> fec_vencimiento)) }}</td>
                         <td>$ {{  number_format($dte -> total,0,',','.') }}</td>
@@ -135,7 +135,7 @@
                                 @elseif($dte->pagado == 0)
                                     <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip"
                                             title="Impaga">
-                                        <i class="fa fa-times"></i> SIN DOCUMENTO
+                                        <i class="fa fa-times"></i> SIN DOCUMENTO <br> DE RESPALDO
                                     </button>
                                 @else
                                     <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip"
@@ -179,7 +179,7 @@
                                         <form action="{{ url('AprobarFactura') }}" method="post">
                                             <input type="hidden" name="id_dte" value="{{  $dte -> id_dte_e }}">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <button type="submit" class="btn col-sm-12 btn-success btn-xs" data-toggle="tooltip"
+                                            <button type="submit" class="btn col-sm-12 btn-danger btn-xs" data-toggle="tooltip"
                                                     title="Aprobar CE" disabled>
                                                 <i class="fa fa-dollar"></i> APROBAR
                                             </button>

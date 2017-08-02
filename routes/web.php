@@ -67,6 +67,15 @@ Route::get('Informes/Pagos_Recibir_Pendientes', 'InformesController@pagos_e_pend
 Route::get('Informes/Clientes', 'InformesController@info_cli');
 Route::post('Informes/Generar', 'InformesController@generar');
 
+// BANCOS
+
+Route::get('Bancos/Chile', 'InformesController@chile');
+Route::get('Bancos/Santander', 'InformesController@santander');
+Route::get('CajaChica', 'InformesController@cajachica');
+
 //FICHA DTE
 Route::post('FichaDTE', 'dteController@FichaDTE');
+
+//CHEQUES
+Route::get('Cheques', 'InformesController@cheques');
 
